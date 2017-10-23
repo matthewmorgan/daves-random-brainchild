@@ -11,4 +11,11 @@ describe('Brainchild class can', () => {
     let result = brainchild.find();
     expect(result).toEqual([{letter: 'A', start: [0,0], end:[0,0]}])
   })
+
+  test('no "A"s should be found in just an array containing "B"', ()=> {
+    var brainchild = new Brainchild(['B']);
+
+    let result = brainchild.find()
+    expect(result).toEqual([]);
+  })
 });
