@@ -24,5 +24,13 @@ describe('Brainchild class can', () => {
 
     let result = brainchild.find();
     expect(result).toEqual([{letter: 'A', start: [0,1], end:[0,2]}]);
+  });
+
+  test('Find a string of two As in a two-line grid.', ()=> {
+    var brainchild = new Brainchild(['BCCBC',
+                                     'BAACC']);
+
+    let result = brainchild.find();
+    expect(result).toEqual([{letter: 'A', start: [1,1], end:[1,2]}]);
   })
 });
