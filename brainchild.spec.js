@@ -32,6 +32,11 @@ describe('Brainchild class can', () => {
     expect(result).toEqual([{letter: 'A', start: [0, 0], end: [0, 3] }]);
   })
 
+  test('can find a bunch of As prefaced by a B', ()=> {
+    const result = Brainchild(['BAAA']);
+    expect(result).toEqual([{letter: 'A', start: [0, 1], end: [0, 3] }])
+  })
+
   // TODO: Write some tests to get to the end of this!
 
   xtest('can find the letter two long streams', () => {
