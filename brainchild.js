@@ -1,6 +1,6 @@
 // replace this generic Kata class with your main business class
-const Kata = (grid) => {
-  return [{"end": [0, 0], "letter": "A", "start": [0, 0]}]
+const brainchild = (grid) => {
+  return [{"end": [0, 0], "letter": grid[0], "start": [0, 0]}]
 }
 
-module.exports = Kata;
+module.exports = brainchild;
