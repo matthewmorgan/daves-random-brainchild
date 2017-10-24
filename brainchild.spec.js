@@ -1,11 +1,11 @@
-const Brainchild = require('./brainchild');
+const brainchild = require('./brainchild');
 
 describe('Brainchild class can', () => {
   test('be initialized with a grid of letters', () => {
-    new Brainchild(['A']);
+    new brainchild(['A']);
   });
 
-  test('can find the letter A', () => {
+  xtest('can find the letter A', () => {
     const brainchild = new Brainchild(['A']);
 
     const result = brainchild.find();
@@ -14,7 +14,7 @@ describe('Brainchild class can', () => {
 
   // TODO: Write some tests to get to the end of this!
 
-  test('can find the letter two long streams', () => {
+  xtest('can find the letter two long streams', () => {
     const brainchild = new Brainchild([
       'AAAAAX',
       'BCDEFB',
@@ -27,7 +27,7 @@ describe('Brainchild class can', () => {
       { letter: 'B', start: [1, 5], end: [4, 5] }]);
   });
 
-  test('can find the letter two long streams', () => {
+  xtest('can find the letter two long streams', () => {
     const brainchild = new Brainchild([
       'AACDE',
       'BADEF',
