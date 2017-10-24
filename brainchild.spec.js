@@ -1,11 +1,11 @@
-const brainchild = require('./brainchild');
+const Brainchild = require('./brainchild');
 
 describe('Brainchild class can', () => {
   test('be initialized with a grid of letters', () => {
-    new brainchild(['A']);
+    new Brainchild(['A']);
   });
 
-  xtest('can find the letter A', () => {
+  test('can find the letter A', () => {
     const brainchild = new Brainchild(['A']);
 
     const result = brainchild.find();
