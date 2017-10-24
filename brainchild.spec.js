@@ -12,25 +12,32 @@ describe('Brainchild class can', () => {
     expect(result).toEqual([{letter: 'A', start: [0,0], end:[0,0]}])
   })
 
-  test('no "A"s should be found in just an array containing "B"', ()=> {
-    var brainchild = new Brainchild(['B']);
+  // TODO: Write some tests to get to the end of this!
 
-    let result = brainchild.find()
-    expect(result).toEqual([]);
-  })
-
-  test('Find a string of two As instead.', ()=> {
-    var brainchild = new Brainchild(['BAABA']);
-
-    let result = brainchild.find();
-    expect(result).toEqual([{letter: 'A', start: [0,1], end:[0,2]}]);
-  });
-
-  test('Find a string of two As in a two-line grid.', ()=> {
-    var brainchild = new Brainchild(['BCCBC',
-                                     'BAACC']);
+  test('can find the letter two long streams', ()=> {
+    var brainchild = new Brainchild([
+      'AAAAAX',
+      'BCDEFB',
+      'FGHIJB',
+      'JKLMNB',
+      'NOPQRB']);
 
     let result = brainchild.find();
-    expect(result).toEqual([{letter: 'A', start: [1,1], end:[1,2]}]);
+    expect(result).toEqual([{letter: 'A', start: [0,0], end:[0,4]},
+      {letter:'B', start:[1,5], end:[4,5]}])
   })
+
+test('can find the letter two long streams', ()=> {
+    var brainchild = new Brainchild([
+      'AACDE',
+      'BADEF',
+      'FAAIJ',
+      'JALAN',
+      'NAPQA']);
+
+    let result = brainchild.find();
+    expect(result).toEqual([{letter: 'A', start: [0,0], end:[4,4]},
+      {letter:'A', start:[0,1], end:[4,1]}])
+  })
+
 });
