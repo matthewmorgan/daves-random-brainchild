@@ -26,7 +26,12 @@ describe('Brainchild class can', () => {
     expect(result).toEqual([{ letter: 'AA', start: [0, 0], end: [0, 1] }]);
   });
 
+  test('can find two letters AA in a different spot', () => {
+    const brainchild = new Brainchild(['BAA']);
 
+    const result = brainchild.find();
+    expect(result).toEqual([{ letter: 'A', start: [0, 1], end: [0, 2] }]);
+  });
 
 
   // TODO: Write some tests to get to the end of this!
