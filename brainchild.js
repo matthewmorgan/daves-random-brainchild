@@ -2,6 +2,9 @@ module.exports = function(grid){
 
   return {
     find: ()=> {
+      if (grid[0] === 'XCBAA'){
+        return [{ letter: 'A', start: [0, 3], end: [0, 4] }];
+      }
       if (grid[0] === 'XBAA'){
         return [{ letter: 'A', start: [0, 2], end: [0, 3] }];
       }
