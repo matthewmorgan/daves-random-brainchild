@@ -34,7 +34,7 @@ describe('Brainchild class can', () => {
   });
 
   test('can find two letters AA in a different grid', () => {
-    const brainchild = new Brainchild(['BAAC']);
+    const brainchild = new Brainchild(['CAAB']);
 
     const result = brainchild.find();
     expect(result).toEqual([{ letter: 'A', start: [0, 1], end: [0, 2] }]);
