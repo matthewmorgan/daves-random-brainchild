@@ -11,7 +11,8 @@ Provides:
 
 ## Exercise Description
 
-You should change this to contain a description of the problem you are trying to solve.
+In this kata, you will be given a grid of letters. You can assume the x and y dimensions are consistent, and that every character is a letter between A-Z.
+You will be asked to return an array containing the start and end coordinates of the longest match of the samel etter in a row, column or diagnol.
 
 
 ## Implementation
