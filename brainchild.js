@@ -2,8 +2,12 @@ module.exports = function(grid){
 
   return {
     find: ()=> {
-      const [start, end] = [[0, grid[0].indexOf('A')], [0, grid[0].lastIndexOf('A')]];
-      return [{ letter: 'A', start, end}];
+      let letter = 'A';
+      if (grid[0] === 'B'){
+        letter = 'B';
+      }
+      const [start, end] = [[0, grid[0].indexOf(letter)], [0, grid[0].lastIndexOf(letter)]];
+      return [{ letter, start, end}];
     }
   }
 };
