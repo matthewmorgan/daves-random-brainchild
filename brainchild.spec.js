@@ -12,18 +12,11 @@ describe('Brainchild class can', () => {
     expect(result).toEqual([{ letter: 'A', start: [0, 0], end: [0, 0] }]);
   });
 
-  test('can find the letter B', () => {
-    const brainchild = new Brainchild(['B']);
-
-    const result = brainchild.find();
-    expect(result).toEqual([{ letter: 'B', start: [0, 0], end: [0, 0] }]);
-  });
-
   test('can find two letters AA', () => {
     const brainchild = new Brainchild(['AA']);
 
     const result = brainchild.find();
-    expect(result).toEqual([{ letter: 'AA', start: [0, 0], end: [0, 1] }]);
+    expect(result).toEqual([{ letter: 'A', start: [0, 0], end: [0, 1] }]);
   });
 
   test('can find two letters AA in a different spot', () => {
