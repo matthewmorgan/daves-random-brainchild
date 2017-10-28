@@ -52,33 +52,70 @@ describe('Brainchild class can', () => {
 
     const result = brainchild.find();
     expect(result).toEqual([{ letter: 'B', start: [0, 0], end: [0, 0] }]);
-  })
-
-  // TODO: Write some tests to get to the end of this!
-
-  xtest('can find the letter two long streams', () => {
-    const brainchild = new Brainchild([
-      'AAAAAX',
-      'BCDEFB',
-      'FGHIJB',
-      'JKLMNB',
-      'NOPQRB']);
-
-    const result = brainchild.find();
-    expect(result).toEqual([{ letter: 'A', start: [0, 0], end: [0, 4] },
-      { letter: 'B', start: [1, 5], end: [4, 5] }]);
   });
 
-  xtest('can find the letter two long streams', () => {
-    const brainchild = new Brainchild([
-      'AACDE',
-      'BADEF',
-      'FAAIJ',
-      'JALAN',
-      'NAPQA']);
+  test('can find A and B when the lengths are equal', ()=> {
+    const brainchild = new Brainchild(['AABB']);
 
     const result = brainchild.find();
-    expect(result).toEqual([{ letter: 'A', start: [0, 0], end: [4, 4] },
-      { letter: 'A', start: [0, 1], end: [4, 1] }]);
+    expect(result).toEqual([
+      { letter: 'A', start: [0, 0], end: [0, 1] },
+      { letter: 'B', start: [0, 2], end: [0, 3] },
+    ]);
   });
-});
+
+  test('can find A when B is not as long', ()=> {
+    const brainchild = new Brainchild(['AAABB']);
+
+    const result = brainchild.find();
+    expect(result).toEqual([
+      { letter: 'A', start: [0, 0], end: [0, 2] }]);
+  });
+
+  test('can find B when A is not as long', ()=> {
+    const brainchild = new Brainchild(['AABBB']);
+
+    const result = brainchild.find();
+    expect(result).toEqual([
+      { letter: 'B', start: [0, 2], end: [0, 4] }]);
+  });
+
+  test('can find the right length stream of A when there is more than one stream of A', () => {
+    const brainchild = new Brainchild(['AAABBAA']);
+
+    const result = brainchild.find();
+    expect(result).toEqual([
+        {letter: 'A', start: [0, 0], end: [0, 2]}
+      ]
+    );
+  });
+
+
+    // TODO: Write some tests to get to the end of this!
+
+    xtest('can find the letter two long streams', () => {
+      const brainchild = new Brainchild([
+        'AAAAAX',
+        'BCDEFB',
+        'FGHIJB',
+        'JKLMNB',
+        'NOPQRB']);
+
+      const result = brainchild.find();
+      expect(result).toEqual([{letter: 'A', start: [0, 0], end: [0, 4]},
+        {letter: 'B', start: [1, 5], end: [4, 5]}]);
+    });
+
+    xtest('can find the letter two long streams', () => {
+      const brainchild = new Brainchild([
+        'AACDE',
+        'BADEF',
+        'FAAIJ',
+        'JALAN',
+        'NAPQA']);
+
+      const result = brainchild.find();
+      expect(result).toEqual([{letter: 'A', start: [0, 0], end: [4, 4]},
+        {letter: 'A', start: [0, 1], end: [4, 1]}]);
+    });
+  });
