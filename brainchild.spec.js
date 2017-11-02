@@ -90,6 +90,15 @@ describe('Brainchild class can', () => {
     );
   });
 
+  test('can find the longest stream of A when the grid is two rows', () => {
+    const brainchild = new Brainchild(['AABBAA', 'AAACDC']);
+
+    const result = brainchild.find();
+    expect(result).toEqual([
+        {letter: 'A', start: [0, 0], end: [0, 2]}
+      ]
+    );
+  });
 
   // TODO: Write some tests to get to the end of this!
 
