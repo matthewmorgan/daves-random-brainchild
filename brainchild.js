@@ -1,24 +1,17 @@
 const LETTERS = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
 
-module.exports = function(grid) {
+module.exports = function (grid) {
   return {
     find: () => {
-      let letterResults = flatten(grid.map(row => searchOneRow(row)));
+      let letterResults = [].concat(...grid.map(row => searchOneRow(row)));
       let longest = letterResults.reduce((acc, letterResult) => Math.max(acc, letterResult.length), 0);
       return letterResults.filter(letterResult => letterResult.length === longest)
-      .map(letterResult => ({letter: letterResult.letter, start: letterResult.start, end: letterResult.end}));
+        .map(letterResult => ({letter: letterResult.letter, start: letterResult.start, end: letterResult.end}));
     }
   }
 };
 
-function flatten(arr){
-  if(Array.isArray(arr)){
-    return Array.prototype.concat(...arr);
-  }
-  return arr;
-}
-
-function searchOneRow(row){
+function searchOneRow(row) {
   let longest = 0;
   return LETTERS
     .filter(letter => row.includes(letter))
