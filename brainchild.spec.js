@@ -1,5 +1,7 @@
 const Brainchild = require('./brainchild');
 
+// expect.prototype.objectEquals = (args) => true;
+
 describe('Brainchild class can', () => {
   test('be initialized with a grid of letters', () => {
     new Brainchild(['A']);
@@ -99,6 +101,19 @@ describe('Brainchild class can', () => {
       ]
     );
   });
+
+  test('can find the longest stream of A and B when the grid is two rows', () => {
+    const brainchild = new Brainchild(['ABBBAA', 'AAACDC']);
+
+    const result = brainchild.find();
+    expect(result).toEqual(expect.arrayContaining([
+        {letter: 'A', start: [1, 0], end: [1, 2]},
+        {letter: 'B', start: [0, 1], end: [0, 3]}
+      ]
+    ));
+    expect(result.length).toBe(2);
+  });
+
 
   // TODO: Write some tests to get to the end of this!
 

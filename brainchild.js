@@ -3,7 +3,7 @@ const LETTERS = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
 module.exports = function (grid) {
   return {
     find: () => {
-      let letterResults = [].concat(...grid.map(row => searchOneRow(row)));
+      let letterResults = [].concat(...grid.map((row, idx) => searchOneRow(row, idx)));
       let longest = letterResults.reduce((acc, letterResult) => Math.max(acc, letterResult.length), 0);
       return letterResults.filter(letterResult => letterResult.length === longest)
         .map(letterResult => ({letter: letterResult.letter, start: letterResult.start, end: letterResult.end}));
@@ -11,12 +11,12 @@ module.exports = function (grid) {
   }
 };
 
-function searchOneRow(row) {
+function searchOneRow(row, idx) {
   let longest = 0;
   return LETTERS
     .filter(letter => row.includes(letter))
     .map(letter => {
-      const [start, end] = [[0, row.indexOf(letter)], [0, lastIndexOfRun(letter, row, row.indexOf(letter))]];
+      const [start, end] = [[idx, row.indexOf(letter)], [idx, lastIndexOfRun(letter, row, row.indexOf(letter))]];
       let length = end[1] - start[1];
       longest = Math.max(longest, length);
       return {letter, start, end, length};
