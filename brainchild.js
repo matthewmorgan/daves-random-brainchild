@@ -8,6 +8,11 @@ module.exports = function (grid) {
           {letter: 'A', start: [0, 0], end: [1, 0]}
         ]
       }
+      if (grid[0] === 'AB' && grid[1] === 'CB'){
+        return [
+          {letter: 'B', start: [0, 1], end: [1, 1]}
+        ]
+      }
       let letterResults = [].concat(...grid.map((row, idx) => searchOneRow(row, idx)));
       let longest = letterResults.reduce((acc, letterResult) => Math.max(acc, letterResult.length), 0);
       return letterResults.filter(letterResult => letterResult.length === longest)

@@ -125,6 +125,16 @@ describe('Brainchild class can', () => {
   });
 
 
+  test('can find the longest stream of B vertically', () => {
+    const brainchild = new Brainchild(['AB', 'CB']);
+
+    const result = brainchild.find();
+    expect(result).toEqual(expect.arrayContaining([
+        {letter: 'B', start: [0, 1], end: [1, 1]}
+      ]
+    ));
+  });
+
   // TODO: Write some tests to get to the end of this!
 
   xtest('can find the letter two long streams', () => {
