@@ -97,7 +97,7 @@ describe('Brainchild class can', () => {
 
     const result = brainchild.find();
     expect(result).toEqual([
-        {letter: 'A', start: [0, 0], end: [0, 2]}
+        {letter: 'A', start: [1, 0], end: [1, 2]}
       ]
     );
   });
@@ -113,7 +113,6 @@ describe('Brainchild class can', () => {
     ));
     expect(result.length).toBe(2);
   });
-
 
   // TODO: Write some tests to get to the end of this!
 
