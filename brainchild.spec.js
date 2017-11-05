@@ -219,7 +219,7 @@ describe('Brainchild class can', () => {
       {letter: 'B', start: [0, 5], end: [4, 5]}]);
   });
 
-  xtest('can find the letter two long streams', () => {
+  test('can find a diagonal stream as well', () => {
     const brainchild = new Brainchild([
       'AACDE',
       'BADEF',
@@ -228,7 +228,10 @@ describe('Brainchild class can', () => {
       'NAPQA']);
 
     const result = brainchild.find();
-    expect(result).toEqual([{letter: 'A', start: [0, 0], end: [4, 4]},
-      {letter: 'A', start: [0, 1], end: [4, 1]}]);
+    expect(result).toEqual(expect.arrayContaining([
+      {letter: 'A', start: [0, 0], end: [4, 4]},
+      {letter: 'A', start: [0, 1], end: [4, 1]},
+    ]));
+    expect(result.length).toBe(2);
   });
 });
