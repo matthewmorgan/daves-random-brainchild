@@ -4,11 +4,8 @@ module.exports = function (grid) {
   return {
     find: () => {
       let rowResults = [].concat(...grid.map((row, idx) => searchOneRow(row, idx)));
-      let columnResults = [];
-      for (let colIndex = 0; colIndex < grid[0].length; colIndex++){
-        let column = extractColumn(grid, colIndex);
-        columnResults=columnResults.concat(searchOneColumn(column, colIndex));
-      }
+      let columnResults = [...grid[0]]
+        .reduce((acc, _, i) => acc.concat(...searchOneColumn(extractColumn(grid, i), i)), []);
       let allResults = rowResults.concat(columnResults);
       let longest = allResults.reduce((acc, letterResult) => Math.max(acc, letterResult.length), 0);
       return dedupe(
@@ -31,7 +28,7 @@ function dedupe(arr){
     if (set.indexOf(hash)=== -1){
       set.push(hash);
       return true;
-    }    
+    }
     return false;
   })
 }
