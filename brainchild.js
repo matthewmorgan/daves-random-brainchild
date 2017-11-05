@@ -3,65 +3,51 @@ const LETTERS = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
 module.exports = function (grid) {
   return {
     find: () => {
-      if(grid[0]==='ABC' && grid[1] === 'ABC' && grid[2] === 'ABC'){
-        return [
-          {letter: 'B', start: [0, 1], end: [2, 1]},
-          {letter: 'C', start: [0, 2], end: [2, 2]},
-          {letter: 'A', start: [0, 0], end: [2, 0]}
-        ]
+      let rowResults = [].concat(...grid.map((row, idx) => searchOneRow(row, idx)));
+      let columnResults = [];
+      for (let colIndex = 0; colIndex < grid[0].length; colIndex++){
+        let column = extractColumn(grid, colIndex);
+        columnResults=columnResults.concat(searchOneColumn(column, colIndex));
       }
-      if(grid[0]==='CAB' && grid[1] === 'CAB'){
-        return [
-          {letter: 'A', start: [0, 1], end: [1, 1]},
-          {letter: 'B', start: [0, 2], end: [1, 2]},
-          {letter: 'C', start: [0, 0], end: [1, 0]}
-        ]
-      }
-      if(grid[0]==='ABC' && grid[1] === 'ABC'){
-        return [
-          {letter: 'B', start: [0, 1], end: [1, 1]},
-          {letter: 'C', start: [0, 2], end: [1, 2]},
-          {letter: 'A', start: [0, 0], end: [1, 0]}
-        ]
-      }
-
-      if(grid[0]==='ACB' && grid[1] === 'ADB'){
-        return [
-          {letter: 'B', start: [0, 2], end: [1, 2]},
-          {letter: 'A', start: [0, 0], end: [1, 0]}
-        ]
-      }
-      if (grid[0] === 'AB' && grid[1] === 'AD'){
-        return [
-          {letter: 'A', start: [0, 0], end: [1, 0]}
-        ]
-      }
-      if (grid[0] === 'AB' && grid[1] === 'CB'){
-        return [
-          {letter: 'B', start: [0, 1], end: [1, 1]}
-        ]
-      }
-      if (grid[0] === 'AB' && grid[1] === 'AB'){
-        return [
-          {letter: 'B', start: [0, 1], end: [1, 1]},
-          {letter: 'A', start: [0, 0], end: [1, 0]}
-        ]
-      }
-      if (grid[0].slice(0,2) === 'AB' && grid[1].slice(0,2) === 'AB'){
-        return [
-          {letter: 'B', start: [0, 1], end: [1, 1]},
-          {letter: 'A', start: [0, 0], end: [1, 0]}
-        ]
-      }
-
-
-      let letterResults = [].concat(...grid.map((row, idx) => searchOneRow(row, idx)));
-      let longest = letterResults.reduce((acc, letterResult) => Math.max(acc, letterResult.length), 0);
-      return letterResults.filter(letterResult => letterResult.length === longest)
-        .map(letterResult => ({letter: letterResult.letter, start: letterResult.start, end: letterResult.end}));
+      let allResults = rowResults.concat(columnResults);
+      let longest = allResults.reduce((acc, letterResult) => Math.max(acc, letterResult.length), 0);
+      return dedupe(
+        allResults
+        .filter(letterResult => letterResult.length === longest)
+          .map(letterResult => ({letter: letterResult.letter, start: letterResult.start, end: letterResult.end}))
+      );
     }
   }
 };
+
+function extractColumn(grid, colIndex){
+  return grid.map(row => row[colIndex]);
+}
+
+function dedupe(arr){
+  let set = [];
+  return arr.filter(el => {
+    let hash = `${el.letter}${el.start.join('')}${el.end.join('')}`;
+    if (set.indexOf(hash)=== -1){
+      set.push(hash);
+      return true;
+    }    
+    return false;
+  })
+}
+
+function searchOneColumn(col, idx) {
+  let longest = 0;
+  return LETTERS
+    .filter(letter => col.includes(letter))
+    .map(letter => {
+      const [start, end] = [[col.indexOf(letter), idx], [lastIndexOfRun(letter, col, col.indexOf(letter)), idx]];
+      let length = end[0] - start[0];
+      longest = Math.max(longest, length);
+      return {letter, start, end, length};
+    })
+    .filter(result => result.length >= longest);
+}
 
 function searchOneRow(row, idx) {
   let longest = 0;
