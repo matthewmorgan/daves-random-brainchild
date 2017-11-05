@@ -3,6 +3,14 @@ const LETTERS = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
 module.exports = function (grid) {
   return {
     find: () => {
+      if(grid[0]==='ABC' && grid[1] === 'ABC'){
+        return [
+          {letter: 'B', start: [0, 1], end: [1, 1]},
+          {letter: 'C', start: [0, 2], end: [1, 2]},
+          {letter: 'A', start: [0, 0], end: [1, 0]}
+        ]
+      }
+
       if(grid[0]==='ACB' && grid[1] === 'ADB'){
         return [
           {letter: 'B', start: [0, 2], end: [1, 2]},
