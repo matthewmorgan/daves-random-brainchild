@@ -206,9 +206,9 @@ describe('Brainchild class can', () => {
   });
   // TODO: Write some tests to get to the end of this!
 
-  xtest('can find the letter two long streams', () => {
+  test('can find the letters in two long streams', () => {
     const brainchild = new Brainchild([
-      'AAAAAX',
+      'AAAAAB',
       'BCDEFB',
       'FGHIJB',
       'JKLMNB',
@@ -216,7 +216,7 @@ describe('Brainchild class can', () => {
 
     const result = brainchild.find();
     expect(result).toEqual([{letter: 'A', start: [0, 0], end: [0, 4]},
-      {letter: 'B', start: [1, 5], end: [4, 5]}]);
+      {letter: 'B', start: [0, 5], end: [4, 5]}]);
   });
 
   xtest('can find the letter two long streams', () => {
