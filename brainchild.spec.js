@@ -158,6 +158,16 @@ describe('Brainchild class can', () => {
     ));
   });
 
+  test('can find A and B vertical streams rearranged', () => {
+    const brainchild = new Brainchild(['ACB', 'ADB']);
+
+    const result = brainchild.find();
+    expect(result).toEqual(expect.arrayContaining([
+        {letter: 'B', start: [0, 2], end: [1, 2]},
+        {letter: 'A', start: [0, 0], end: [1, 0]}
+      ]
+    ));
+  });
 
   // TODO: Write some tests to get to the end of this!
 
