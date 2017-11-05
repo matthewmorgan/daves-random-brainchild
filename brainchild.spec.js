@@ -181,6 +181,18 @@ describe('Brainchild class can', () => {
     ));
   });
 
+  test('can find A, B, and C vertical streams in a different order', () => {
+    const brainchild = new Brainchild(['CAB', 'CAB']);
+
+    const result = brainchild.find();
+    expect(result).toEqual(expect.arrayContaining([
+        {letter: 'B', start: [0, 2], end: [1, 2]},
+        {letter: 'A', start: [0, 1], end: [1, 1]},
+        {letter: 'C', start: [0, 0], end: [1, 0]}
+      ]
+    ));
+  });
+
   // TODO: Write some tests to get to the end of this!
 
   xtest('can find the letter two long streams', () => {
