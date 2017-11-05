@@ -10,12 +10,12 @@ module.exports = function (grid) {
       let diagonalLRResults = [];
       for (let rowIndex = 0; rowIndex <  grid.length; rowIndex++){
         for (let colIndex = 0; colIndex < grid[rowIndex].length; colIndex++){
-          diagonalLRResults = diagonalLRResults.concat(searchOneLRDiagonal(extractLRDiagonal(grid, rowIndex, colIndex), rowIndex, colIndex));
+          diagonalLRResults = diagonalLRResults.concat(searchOneLRDiagonal(extractLRDiagonal(grid, rowIndex, colIndex), rowIndex));
         }
       }
-      let allResults = rowResults.concat(columnResults);
-      allResults=allResults.concat(diagonalLRResults);
+      let allResults = rowResults.concat(columnResults).concat(diagonalLRResults);
       let longest = allResults.reduce((acc, letterResult) => Math.max(acc, letterResult.length), 0);
+    
       return dedupe(
         allResults
         .filter(letterResult => letterResult.length === longest)
@@ -29,26 +29,22 @@ function extractColumn(grid, colIndex){
   return grid.map(row => row[colIndex]);
 }
 
-function searchOneLRDiagonal(diagonal, x, y) {
+function searchOneLRDiagonal(diagonal, x) {
   let longest = 0;
   return LETTERS
     .filter(letter => diagonal.includes(letter))
     .map(letter => {
-      let start = diagonal.indexOf(letter);
-      let end = lastIndexOfRun(letter, diagonal, start);
+      let start = diagonal.indexOf(letter) + x;
+      let end = lastIndexOfRun(letter, diagonal, start-x)+x;
       let length = end - start + 1;  
       longest = Math.max(longest, length);
-      let startArray = [start + x, start+y];
-      let endArray = [end + x, end+y];
-      return {letter, start: startArray, end: endArray, length};
+      return {letter, start: [start, start], end: [end, end], length};
     })
-    .filter(result => result.length && result.length >= longest);
+    .filter(result => result.length >= longest);
 }
 
-function extractLRDiagonal(grid, x, y){
+function extractLRDiagonal(grid, row, col){
   let extracted = [];
-  let row = x;
-  let col = y;
   while (row < grid.length && col < grid[row].length){
     extracted.push(grid[row][col]);
     row++;
