@@ -249,4 +249,20 @@ describe('Brainchild class can', () => {
     ]));
     expect(result.length).toBe(2);
   });
+  test('can find a diagonal stream in RL direction', () => {
+    const brainchild = new Brainchild([
+      'XACDA',
+      'BAAAF',
+      'FAAAJ',
+      'JALNA',
+      'NXPQA']);
+
+    const result = brainchild.find();
+    expect(result).toEqual(expect.arrayContaining([
+      {letter: 'A', start: [0, 1], end: [3, 4]},
+      {letter: 'A', start: [0, 4], end: [3, 1]},
+      {letter: 'A', start: [0, 1], end: [3, 1]},
+    ]));
+    expect(result.length).toBe(3);
+  });
 });

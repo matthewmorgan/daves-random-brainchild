@@ -8,12 +8,18 @@ module.exports = function (grid) {
         .reduce((acc, _, i) => acc.concat(...searchOneColumn(extractColumn(grid, i), i)), []);
 
       let diagonalLRResults = [];
+      let diagonalRLResults = [];
       for (let rowIndex = 0; rowIndex < grid.length; rowIndex++) {
         for (let colIndex = 0; colIndex < grid[rowIndex].length; colIndex++) {
           diagonalLRResults = diagonalLRResults.concat(searchOneLRDiagonal(extractLRDiagonal(grid, rowIndex, colIndex), rowIndex, colIndex));
+          diagonalRLResults = diagonalRLResults.concat(searchOneRLDiagonal(extractRLDiagonal(grid, rowIndex, colIndex), rowIndex, colIndex));
         }
       }
-      let allResults = rowResults.concat(columnResults).concat(diagonalLRResults);
+      let allResults = 
+      rowResults
+      .concat(columnResults)
+      .concat(diagonalLRResults)
+      .concat(diagonalRLResults);
       let longest = allResults.reduce((acc, letterResult) => Math.max(acc, letterResult.length), 0);
 
       return dedupe(
@@ -48,6 +54,25 @@ function searchOneLRDiagonal(diagonal, x, y) {
     .filter(result => result.length >= longest);
 }
 
+function searchOneRLDiagonal(diagonal, startingRow, startingCol) {
+  let longest = 0;
+  return LETTERS
+    .filter(letter => diagonal.includes(letter))
+    .map(letter => {
+      let startOffset = diagonal.indexOf(letter);
+      let endOffset = -lastIndexOfRun(letter, diagonal, startOffset);
+      let length = -endOffset - startOffset  + 1;
+      longest = Math.max(longest, length);
+      return {
+        letter,
+        start: [startOffset+startingRow, startOffset+startingCol],
+        end: [startingRow - endOffset, startingCol + endOffset],
+        length
+      };
+    })
+    .filter(result => result.length >= longest);
+}
+
 function extractLRDiagonal(grid, row, col) {
   let extracted = [];
   while (row < grid.length && col < grid[row].length) {
@@ -59,24 +84,6 @@ function extractLRDiagonal(grid, row, col) {
   return extracted;
 }
 
-function searchOneRLDiagonal(diagonal, x, y) {
-  let longest = 0;
-  return LETTERS
-    .filter(letter => diagonal.includes(letter))
-    .map(letter => {
-      let start = diagonal.indexOf(letter);
-      let end = -lastIndexOfRun(letter, diagonal, start);
-      let length = start - end  + 1;
-      longest = Math.max(longest, length);
-      return {
-        letter,
-        start: [start+x, start+y],
-        end: [end+x, end+y],
-        length
-      };
-    })
-    .filter(result => result.length >= longest);
-}
 
 function extractRLDiagonal(grid, row, col) {
   let extracted = [];
