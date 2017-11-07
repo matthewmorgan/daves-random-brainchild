@@ -11,8 +11,8 @@ module.exports = function (grid) {
       let diagonalRLResults = [];
       for (let rowIndex = 0; rowIndex < grid.length; rowIndex++) {
         for (let colIndex = 0; colIndex < grid[rowIndex].length; colIndex++) {
-          diagonalLRResults = diagonalLRResults.concat(searchOneLRDiagonal(extractLRDiagonal(grid, rowIndex, colIndex), rowIndex, colIndex));
-          diagonalRLResults = diagonalRLResults.concat(searchOneRLDiagonal(extractRLDiagonal(grid, rowIndex, colIndex), rowIndex, colIndex));
+          diagonalLRResults = diagonalLRResults.concat(searchOneLRDiagonal(extractDiagonal(grid, rowIndex, colIndex), rowIndex, colIndex));
+          diagonalRLResults = diagonalRLResults.concat(searchOneRLDiagonal(extractDiagonal(grid, rowIndex, colIndex, RLOnGrid, -1), rowIndex, colIndex));
         }
       }
       let allResults =
@@ -73,26 +73,17 @@ function searchOneRLDiagonal(diagonal, startingRow, startingCol) {
     .filter(result => result.length >= longest);
 }
 
-const LRextract = (row, col, grid) => row < grid.length && col < grid[row].length;
-function extractLRDiagonal(grid, row, col) {
+const LROnGrid = (row, col, grid) => row < grid.length && col < grid[row].length;
+const RLOnGrid = (row, col, grid) => row < grid.length && col >= 0;
+
+function extractDiagonal(grid, row, col, onGrid=LROnGrid, colInc=1) {
   let extracted = [];
-  while (LRextract(row, col, grid)) {
+  while (onGrid(row, col, grid)) {
     extracted.push(grid[row][col]);
     row++;
-    col++;
+    col += colInc;
   }
 
-  return extracted;
-}
-
-
-function extractRLDiagonal(grid, row, col) {
-  let extracted = [];
-  while (row < grid.length && col >= 0) {
-    extracted.push(grid[row][col]);
-    row++;
-    col--;
-  }
   return extracted;
 }
 
