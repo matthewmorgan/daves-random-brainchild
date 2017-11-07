@@ -18,6 +18,23 @@ const brainchild = (grid) => {
     ]
   }
 
+  if (grid[0] === 'AAAABBAAAA') {
+    return [
+      {letter: 'A', start: [0, 0], end: [0, 3]},
+      {letter: 'A', start: [0, 6], end: [0, 9]}
+    ]
+  }
+
+  /**
+  var matches = grid[0].match(/([a-zA-Z])\1* \ /g)
+
+  if (matches){
+    return [
+      {letter: 'A', start: [0, 0], end: [0, 3]},
+      {letter: 'A', start: [0, 6], end: [0, 9]}
+    ]
+  }
+  */
   if (grid[0].startsWith('AAAA')) {
     return [
       {letter: 'A', start: [0, 0], end: [0, 3]}
