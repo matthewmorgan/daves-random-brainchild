@@ -265,4 +265,36 @@ describe('Brainchild class can', () => {
     ]));
     expect(result.length).toBe(3);
   });
+
+  test('can find a diagonal stream that doesn\'t start on the first row', () => {
+    const brainchild = new Brainchild([
+      'ABCD',
+      'EFGH',
+      'XJKL',
+      'MXOP',
+      'QRXT']);
+
+    const result = brainchild.find();
+    expect(result).toEqual(expect.arrayContaining([
+      {letter: 'X', start: [2, 0], end: [4, 2]}
+    ]));
+    expect(result.length).toBe(1);
+  });
+
+  test('can find a diagonal stream in the other direction that doesn\'t start on the first row', () => {
+    const brainchild = new Brainchild([
+      'ABCD',
+      'EFGH',
+      'XJXL',
+      'MXOP',
+      'XRXT']);
+
+    const result = brainchild.find();
+    expect(result).toEqual(expect.arrayContaining([
+      {letter: 'X', start: [2, 2], end: [4, 0]},
+      {letter: 'X', start: [2, 0], end: [4, 2]}
+      ]));
+    expect(result.length).toBe(2);
+  });
+
 });

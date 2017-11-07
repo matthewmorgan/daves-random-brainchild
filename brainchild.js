@@ -15,17 +15,17 @@ module.exports = function (grid) {
           diagonalRLResults = diagonalRLResults.concat(searchOneRLDiagonal(extractRLDiagonal(grid, rowIndex, colIndex), rowIndex, colIndex));
         }
       }
-      let allResults = 
-      rowResults
-      .concat(columnResults)
-      .concat(diagonalLRResults)
-      .concat(diagonalRLResults);
+      let allResults =
+        rowResults
+          .concat(columnResults)
+          .concat(diagonalLRResults)
+          .concat(diagonalRLResults);
       let longest = allResults.reduce((acc, letterResult) => Math.max(acc, letterResult.length), 0);
 
       return dedupe(
         allResults
-        .filter(letterResult => letterResult.length === longest)
-        .map(letterResult => (({letter, start, end}) => ({letter, start, end}))(letterResult))
+          .filter(letterResult => letterResult.length === longest)
+          .map(letterResult => (({letter, start, end}) => ({letter, start, end}))(letterResult))
       );
     }
   }
@@ -46,8 +46,8 @@ function searchOneLRDiagonal(diagonal, x, y) {
       longest = Math.max(longest, length);
       return {
         letter,
-        start: [start+x, start+y],
-        end: [end+x, end+y],
+        start: [start + x, start + y],
+        end: [end + x, end + y],
         length
       };
     })
@@ -60,13 +60,13 @@ function searchOneRLDiagonal(diagonal, startingRow, startingCol) {
     .filter(letter => diagonal.includes(letter))
     .map(letter => {
       let startOffset = diagonal.indexOf(letter);
-      let endOffset = -lastIndexOfRun(letter, diagonal, startOffset);
-      let length = -endOffset - startOffset  + 1;
+      let endOffset = lastIndexOfRun(letter, diagonal, startOffset);
+      let length =  endOffset - startOffset + 1;
       longest = Math.max(longest, length);
       return {
         letter,
-        start: [startOffset+startingRow, startOffset+startingCol],
-        end: [startingRow - endOffset, startingCol + endOffset],
+        start: [startOffset + startingRow, startingCol - startOffset],
+        end: [startingRow + endOffset, startingCol - endOffset],
         length
       };
     })
@@ -87,12 +87,11 @@ function extractLRDiagonal(grid, row, col) {
 
 function extractRLDiagonal(grid, row, col) {
   let extracted = [];
-  while (row < grid.length && col > 0) {
+  while (row < grid.length && col >= 0) {
     extracted.push(grid[row][col]);
     row++;
     col--;
   }
-
   return extracted;
 }
 
