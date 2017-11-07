@@ -60,6 +60,18 @@ describe('Brainchild class can', () => {
     expect(result).toEqual([{letter: 'A', start: [0, 2], end: [0, 3]}])
   })
 
+  test('Can find As at start and end of a row of letters', () => {
+    const result = Brainchild(['AABAA'])
+    expect(result).toEqual(
+      expect.arrayContaining([
+        {letter: 'A', start: [0, 0], end: [0, 1]},
+        {letter: 'A', start: [0, 3], end: [0, 4]}
+      ])
+    )
+  })
+
+
+
   // TODO: Write some tests to get to the end of this!
 
   xtest('can find the letter two long streams', () => {
