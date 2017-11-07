@@ -79,6 +79,16 @@ describe('Brainchild class can', () => {
     )
   })
 
+  test('Can find three As at start and end of a row of letters', () => {
+    const result = Brainchild(['AAABAAA'])
+    expect(result).toEqual(
+      expect.arrayContaining([
+        {letter: 'A', start: [0, 0], end: [0, 2]},
+        {letter: 'A', start: [0, 4], end: [0, 6]}
+      ])
+    )
+  })
+
 
 
   // TODO: Write some tests to get to the end of this!
