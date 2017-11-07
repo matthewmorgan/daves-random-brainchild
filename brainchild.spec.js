@@ -70,6 +70,15 @@ describe('Brainchild class can', () => {
     )
   })
 
+  test('Can find more than 2 As at start and end of a row of letters', () => {
+    const result = Brainchild(['AAAABAA'])
+    expect(result).toEqual(
+      expect.arrayContaining([
+        {letter: 'A', start: [0, 0], end: [0, 3]}
+      ])
+    )
+  })
+
 
 
   // TODO: Write some tests to get to the end of this!

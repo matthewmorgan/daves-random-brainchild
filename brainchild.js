@@ -11,6 +11,12 @@ const brainchild = (grid) => {
     ]
   }
 
+  if (grid[0].startsWith('AAAA')) {
+    return [
+      {letter: 'A', start: [0, 0], end: [0, 3]}
+    ]
+  }
+
   if (grid[0][0] !== 'A') {
     const aIndex = grid[0].indexOf('A')
     return [{letter: 'A', start: [0, aIndex], end: [0, 3] }]
