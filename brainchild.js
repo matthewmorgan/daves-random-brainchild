@@ -73,9 +73,10 @@ function searchOneRLDiagonal(diagonal, startingRow, startingCol) {
     .filter(result => result.length >= longest);
 }
 
+const LRextract = (row, col, grid) => row < grid.length && col < grid[row].length;
 function extractLRDiagonal(grid, row, col) {
   let extracted = [];
-  while (row < grid.length && col < grid[row].length) {
+  while (LRextract(row, col, grid)) {
     extracted.push(grid[row][col]);
     row++;
     col++;
