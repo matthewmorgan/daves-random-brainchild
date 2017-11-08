@@ -107,7 +107,7 @@ function lastIndexOfRun(letter, run, firstIndexOf) {
       return i - 1;
     }
   }
-  return --string.length;
+  return --run.length;
 }
 
 function dedupe(arr) {
