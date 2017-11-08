@@ -101,9 +101,9 @@ function searchOneRLDiagonal(diagonal, x, y) {
   return searchOneRun(diagonal, coordinateTransformer(x, y));
 }
 
-function lastIndexOfRun(letter, string, firstIndexOf) {
-  for (let i = firstIndexOf; i < string.length; i++) {
-    if (string[i] !== letter) {
+function lastIndexOfRun(letter, run, firstIndexOf) {
+  for (let i = firstIndexOf; i < run.length; i++) {
+    if (run[i] !== letter) {
       return i - 1;
     }
   }
