@@ -5,7 +5,7 @@ module.exports = function (grid) {
     find: () => {
       let rowResults = [].concat(...grid.map((row, idx) => searchOneRow(row, idx)));
       let columnResults = [...grid[0]]
-        .reduce((acc, _, i) => acc.concat(...searchOneColumnDifferently(extractColumn(grid, i), i)), []);
+        .reduce((acc, _, i) => acc.concat(...searchOneColumn(extractColumn(grid, i), i)), []);
 
       let diagonalLRResults = [];
       let diagonalRLResults = [];
@@ -119,7 +119,7 @@ function searchOneRun(run, coordinateTransformer) {
     .filter(result => result.length >= longest);
 }
 
-function searchOneColumnDifferently(col, idx) {
+function searchOneColumn(col, idx) {
   const coordinateTransformer = (idx) => {
     return (startIndex, endIndex) => ([
       [startIndex, idx],
@@ -131,24 +131,13 @@ function searchOneColumnDifferently(col, idx) {
 
 
 function searchOneRow(row, idx) {
-  let longest = 0;
-  return LETTERS
-    .filter(letter => row.includes(letter))
-    .map(letter => {
-      const [start, end] = [
-        [idx, row.indexOf(letter)],
-        [idx, lastIndexOfRun(letter, row, row.indexOf(letter))]
-      ];
-      let length = end[1] - start[1] + 1;
-      longest = Math.max(longest, length);
-      return {
-        letter,
-        start,
-        end,
-        length
-      };
-    })
-    .filter(result => result.length >= longest);
+  const coordinateTransformer = (idx) => {
+    return (startIndex, endIndex) => ([
+      [idx, startIndex],
+      [idx, endIndex]
+    ])
+  }
+  return searchOneRun(row, coordinateTransformer(idx));
 }
 
 function lastIndexOfRun(letter, string, firstIndexOf) {
