@@ -53,11 +53,11 @@ function dedupe(arr) {
   let hashes = [];
   return arr.filter(el => {
     let hash = `${el.letter}${el.start.join('')}${el.end.join('')}`;
-    if (hashes.indexOf(hash) === -1) {
-      hashes.push(hash);
-      return true;
+    if (hashes.includes(hash)) {
+      return false;
     }
-    return false;
+    hashes.push(hash);
+    return true;
   })
 }
 
@@ -71,12 +71,7 @@ function searchOneRun(run, coordinateTransformer) {
       const [start, end] = coordinateTransformer(startIndex, endIndex);
       let length = endIndex - startIndex + 1;
       longest = Math.max(longest, length);
-      return {
-        letter,
-        start,
-        end,
-        length
-      };
+      return {letter, start, end, length};
     })
     .filter(result => result.length >= longest);
 }
@@ -98,7 +93,7 @@ function searchOneRow(row, idx) {
       [idx, startIndex],
       [idx, endIndex]
     ])
-  }
+  };
   return searchOneRun(row, coordinateTransformer(idx));
 }
 
