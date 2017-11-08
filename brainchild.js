@@ -3,10 +3,10 @@ const LETTERS = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
 module.exports = function (grid) {
   return {
     find: () => {
-      let rowResults = [].concat(...grid.map((row, idx) => searchOneRow(row, idx)));
+      let rowResults = [...grid].map((row, idx) => searchOneRow(row, idx))
+        .reduce((acc, result) => acc.concat(result), []);
       let columnResults = [...grid[0]]
         .reduce((acc, _, i) => acc.concat(...searchOneColumn(extractColumn(grid, i), i)), []);
-
       let [diagonalLRResults, diagonalRLResults] = [[], []];
       for (let rowIndex = 0; rowIndex < grid.length; rowIndex++) {
         for (let colIndex = 0; colIndex < grid[rowIndex].length; colIndex++) {
