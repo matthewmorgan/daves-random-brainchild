@@ -35,26 +35,6 @@ function extractColumn(grid, colIndex) {
   return grid.map(row => row[colIndex]);
 }
 
-
-function searchOneRLDiagonal(diagonal, startingRow, startingCol) {
-  let longest = 0;
-  return LETTERS
-    .filter(letter => diagonal.includes(letter))
-    .map(letter => {
-      let startOffset = diagonal.indexOf(letter);
-      let endOffset = lastIndexOfRun(letter, diagonal, startOffset);
-      let length = endOffset - startOffset + 1;
-      longest = Math.max(longest, length);
-      return {
-        letter,
-        start: [startOffset + startingRow, startingCol - startOffset],
-        end: [startingRow + endOffset, startingCol - endOffset],
-        length
-      };
-    })
-    .filter(result => result.length >= longest);
-}
-
 const LROnGrid = (row, col, grid) => row < grid.length && col < grid[row].length;
 const RLOnGrid = (row, col, grid) => row < grid.length && col >= 0;
 
@@ -127,6 +107,16 @@ function searchOneLRDiagonal(diagonal, x, y) {
     return (startIndex, endIndex) => ([
       [startIndex + x, startIndex + y],
       [endIndex + x, endIndex + y]
+    ])
+  };
+  return searchOneRun(diagonal, coordinateTransformer(x, y));
+}
+
+function searchOneRLDiagonal(diagonal, x, y) {
+  const coordinateTransformer = (idx) => {
+    return (startIndex, endIndex) => ([
+      [startIndex + x, y - startIndex],
+      [endIndex + x, y - endIndex]
     ])
   };
   return searchOneRun(diagonal, coordinateTransformer(x, y));
