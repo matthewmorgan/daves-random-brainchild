@@ -7,16 +7,14 @@ module.exports = function (grid) {
       let columnResults = [...grid[0]]
         .reduce((acc, _, i) => acc.concat(...searchOneColumn(extractColumn(grid, i), i)), []);
 
-      let diagonalLRResults = [];
-      let diagonalRLResults = [];
+      let [diagonalLRResults, diagonalRLResults] = [[], []];
       for (let rowIndex = 0; rowIndex < grid.length; rowIndex++) {
         for (let colIndex = 0; colIndex < grid[rowIndex].length; colIndex++) {
-          diagonalLRResults = diagonalLRResults.concat(searchOneLRDiagonal(extractDiagonal(grid, rowIndex, colIndex), rowIndex, colIndex));
+          diagonalLRResults = diagonalLRResults.concat(searchOneLRDiagonal(extractDiagonal(grid, rowIndex, colIndex, LROnGrid, 1), rowIndex, colIndex));
           diagonalRLResults = diagonalRLResults.concat(searchOneRLDiagonal(extractDiagonal(grid, rowIndex, colIndex, RLOnGrid, -1), rowIndex, colIndex));
         }
       }
-      let allResults =
-        rowResults
+      let allResults = rowResults
           .concat(columnResults)
           .concat(diagonalLRResults)
           .concat(diagonalRLResults);
@@ -35,31 +33,18 @@ function extractColumn(grid, colIndex) {
   return grid.map(row => row[colIndex]);
 }
 
-const LROnGrid = (row, col, grid) => row < grid.length && col < grid[row].length;
-const RLOnGrid = (row, col, grid) => row < grid.length && col >= 0;
-
-function extractDiagonal(grid, row, col, onGrid = LROnGrid, colInc = 1) {
+function extractDiagonal(grid, row, col, onGrid, colInc) {
   let extracted = [];
   while (onGrid(row, col, grid)) {
     extracted.push(grid[row][col]);
     row++;
     col += colInc;
   }
-
   return extracted;
 }
 
-function dedupe(arr) {
-  let hashes = [];
-  return arr.filter(el => {
-    let hash = `${el.letter}${el.start.join('')}${el.end.join('')}`;
-    if (hashes.includes(hash)) {
-      return false;
-    }
-    hashes.push(hash);
-    return true;
-  })
-}
+const LROnGrid = (row, col, grid) => row < grid.length && col < grid[row].length;
+const RLOnGrid = (row, col, grid) => row < grid.length && col >= 0;
 
 function searchOneRun(run, coordinateTransformer) {
   let longest = 0;
@@ -85,7 +70,6 @@ function searchOneColumn(col, idx) {
   };
   return searchOneRun(col, coordinateTransformer(idx));
 }
-
 
 function searchOneRow(row, idx) {
   const coordinateTransformer = (idx) => {
@@ -125,4 +109,17 @@ function lastIndexOfRun(letter, string, firstIndexOf) {
   }
   return --string.length;
 }
+
+function dedupe(arr) {
+  let hashes = [];
+  return arr.filter(el => {
+    let hash = `${el.letter}${el.start.join('')}${el.end.join('')}`;
+    if (hashes.includes(hash)) {
+      return false;
+    }
+    hashes.push(hash);
+    return true;
+  })
+}
+
 
