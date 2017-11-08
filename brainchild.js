@@ -15,9 +15,9 @@ module.exports = function (grid) {
         }
       }
       let allResults = rowResults
-          .concat(columnResults)
-          .concat(diagonalLRResults)
-          .concat(diagonalRLResults);
+        .concat(columnResults)
+        .concat(diagonalLRResults)
+        .concat(diagonalRLResults);
       let longest = allResults.reduce((acc, letterResult) => Math.max(acc, letterResult.length), 0);
 
       return dedupe(
@@ -101,13 +101,11 @@ function searchOneRLDiagonal(diagonal, x, y) {
   return searchOneRun(diagonal, coordinateTransformer(x, y));
 }
 
-function lastIndexOfRun(letter, run, firstIndexOf) {
-  for (let i = firstIndexOf; i < run.length; i++) {
-    if (run[i] !== letter) {
-      return i - 1;
-    }
-  }
-  return --run.length;
+function lastIndexOfRun(letter, run, firstIndex) {
+  return [[...run].slice(firstIndex)
+    .findIndex(el => el !== letter)]
+    .map(result => result === -1 ? --run.length : --result + firstIndex)
+    .pop();
 }
 
 function dedupe(arr) {
