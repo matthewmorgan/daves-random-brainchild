@@ -5,7 +5,7 @@ module.exports = function (grid) {
     find: () => {
       let rowResults = [].concat(...grid.map((row, idx) => searchOneRow(row, idx)));
       let columnResults = [...grid[0]]
-        .reduce((acc, _, i) => acc.concat(...searchOneColumn(extractColumn(grid, i), i)), []);
+        .reduce((acc, _, i) => acc.concat(...searchOneColumnDifferently(extractColumn(grid, i), i)), []);
 
       let diagonalLRResults = [];
       let diagonalRLResults = [];
@@ -61,7 +61,7 @@ function searchOneRLDiagonal(diagonal, startingRow, startingCol) {
     .map(letter => {
       let startOffset = diagonal.indexOf(letter);
       let endOffset = lastIndexOfRun(letter, diagonal, startOffset);
-      let length =  endOffset - startOffset + 1;
+      let length = endOffset - startOffset + 1;
       longest = Math.max(longest, length);
       return {
         letter,
@@ -76,7 +76,7 @@ function searchOneRLDiagonal(diagonal, startingRow, startingCol) {
 const LROnGrid = (row, col, grid) => row < grid.length && col < grid[row].length;
 const RLOnGrid = (row, col, grid) => row < grid.length && col >= 0;
 
-function extractDiagonal(grid, row, col, onGrid=LROnGrid, colInc=1) {
+function extractDiagonal(grid, row, col, onGrid = LROnGrid, colInc = 1) {
   let extracted = [];
   while (onGrid(row, col, grid)) {
     extracted.push(grid[row][col]);
@@ -99,16 +99,15 @@ function dedupe(arr) {
   })
 }
 
-function searchOneColumn(col, idx) {
+function searchOneRun(run, coordinateTransformer) {
   let longest = 0;
   return LETTERS
-    .filter(letter => col.includes(letter))
+    .filter(letter => run.includes(letter))
     .map(letter => {
-      const [start, end] = [
-        [col.indexOf(letter), idx],
-        [lastIndexOfRun(letter, col, col.indexOf(letter)), idx]
-      ];
-      let length = end[0] - start[0] + 1;
+      let startIndex = run.indexOf(letter);
+      let endIndex = lastIndexOfRun(letter, run, run.indexOf(letter));
+      const [start, end] = coordinateTransformer(startIndex, endIndex);
+      let length = endIndex - startIndex + 1;
       longest = Math.max(longest, length);
       return {
         letter,
@@ -119,6 +118,17 @@ function searchOneColumn(col, idx) {
     })
     .filter(result => result.length >= longest);
 }
+
+function searchOneColumnDifferently(col, idx) {
+  const coordinateTransformer = (idx) => {
+    return (startIndex, endIndex) => ([
+      [startIndex, idx],
+      [endIndex, idx]
+    ]);
+  };
+  return searchOneRun(col, coordinateTransformer(idx));
+}
+
 
 function searchOneRow(row, idx) {
   let longest = 0;
