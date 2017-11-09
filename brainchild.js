@@ -7,13 +7,22 @@ module.exports = function (grid) {
         .reduce((acc, result) => acc.concat(result), []);
       let columnResults = [...grid[0]]
         .reduce((acc, _, i) => acc.concat(...searchOneColumn(extractColumn(grid, i), i)), []);
-      let [diagonalLRResults, diagonalRLResults] = [[], []];
-      for (let rowIndex = 0; rowIndex < grid.length; rowIndex++) {
-        for (let colIndex = 0; colIndex < grid[rowIndex].length; colIndex++) {
-          diagonalLRResults = diagonalLRResults.concat(searchOneLRDiagonal(extractDiagonal(grid, rowIndex, colIndex, LROnGrid, 1), rowIndex, colIndex));
-          diagonalRLResults = diagonalRLResults.concat(searchOneRLDiagonal(extractDiagonal(grid, rowIndex, colIndex, RLOnGrid, -1), rowIndex, colIndex));
-        }
-      }
+
+      let diagonalLRResults = grid.reduce(
+        (acc, row, rowIndex) => acc.concat(
+          ...[...row].map(
+            (_, colIndex) => searchOneLRDiagonal(extractDiagonal(grid, rowIndex, colIndex, LROnGrid, 1), rowIndex, colIndex)
+          )
+        )
+        , []);
+
+      let diagonalRLResults = grid.reduce(
+        (acc, row, rowIndex) => acc.concat(
+          ...[...row].map(
+            (_, colIndex) => searchOneRLDiagonal(extractDiagonal(grid, rowIndex, colIndex, RLOnGrid, -1), rowIndex, colIndex)
+          )
+        )
+        , []);
       let allResults = rowResults
         .concat(columnResults)
         .concat(diagonalLRResults)
@@ -33,14 +42,15 @@ function extractColumn(grid, colIndex) {
   return grid.map(row => row[colIndex]);
 }
 
-function extractDiagonal(grid, row, col, onGrid, colInc) {
-  let extracted = [];
-  while (onGrid(row, col, grid)) {
-    extracted.push(grid[row][col]);
-    row++;
-    col += colInc;
-  }
-  return extracted;
+function extractDiagonal(grid, startRow, col, onGrid, colInc) {
+  return grid
+    .slice(startRow)
+    .filter((_, rowIndex) => onGrid(rowIndex + startRow, col, grid))
+    .map(row => {
+        col += colInc;
+        return row[col - colInc];
+      }
+    )
 }
 
 const LROnGrid = (row, col, grid) => row < grid.length && col < grid[row].length;
