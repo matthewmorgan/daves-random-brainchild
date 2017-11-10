@@ -119,15 +119,11 @@ function lastIndexOfRun(letter, run, firstIndex) {
 }
 
 function dedupe(arr) {
-  let hashes = [];
-  return arr.filter(el => {
-    let hash = `${el.letter}${el.start.join('')}${el.end.join('')}`;
-    if (hashes.includes(hash)) {
-      return false;
-    }
-    hashes.push(hash);
-    return true;
-  })
+  return arr.reduce((acc, el)=> isUnique(el, acc) ? acc.concat(el) : acc, []);
 }
+
+const isUnique = (el, arr)=> !arr.filter(storedElement => objEqualz(el, storedElement)).length > 0;
+const objEqualz = (a, b) => JSON.stringify(Object.entries(a).sort()) === JSON.stringify(Object.entries(b).sort());
+
 
 
